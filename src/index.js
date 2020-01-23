@@ -26,6 +26,7 @@ export default class RNPickerSelect extends PureComponent {
                 color: ColorPropType,
             })
         ).isRequired,
+        remoteTrigger: PropTypes.bool,
         value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
         placeholder: PropTypes.shape({
             label: PropTypes.string,
@@ -70,6 +71,7 @@ export default class RNPickerSelect extends PureComponent {
             value: null,
             color: '#9EA0A4',
         },
+        remoteTrigger: false,
         disabled: false,
         itemKey: null,
         style: {},
@@ -171,6 +173,14 @@ export default class RNPickerSelect extends PureComponent {
         this.setInputRef = this.setInputRef.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
         this.renderInputAccessoryView = this.renderInputAccessoryView.bind(this);
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        const { remoteTrigger: prevRemoteTrigger } = prevProps
+        const { remoteTrigger } = this.props
+        if (!prevRemoteTrigger && remoteTrigger) {
+            this.togglePicker(true)
+        }
     }
 
     onUpArrow() {
